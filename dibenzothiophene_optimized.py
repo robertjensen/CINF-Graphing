@@ -5,8 +5,8 @@ execfile('std_header.py')
 #Mass of OH: 17.0027397
 
 def MassToTime(mass):
-    time = 2.98609006971 * (mass**0.497691635528)
-    corr_time = time + 0.19 
+    time =  2.97122929 * (mass**0.5)
+    corr_time = time + 0.163
     return corr_time 
 
 fig = plt.figure()
@@ -59,7 +59,7 @@ axis.set_ylim(-50,2000)
 
 p = axis.axvspan(12, 16.5, facecolor='#26aaf7', alpha=0.25)
 p = axis.axvspan(36.5, 37.3, facecolor='#25dd37', alpha=0.25)
-p = axis.axvspan(40, 42, facecolor='#b6fa77', alpha=0.25)
+p = axis.axvspan(40, 41, facecolor='#b6fa77', alpha=0.25)
 
 
 axis.tick_params(direction='in', length=d.ticklength, width=1, colors='k',labelsize=d.labelsize,axis='both',pad=d.pad)
@@ -103,7 +103,7 @@ axis.ticklabel_format(useOffset=False)
 #axis.annotate('H$_2$', xy=(4.35, 10),  xycoords='data', xytext=(4.2, 20), textcoords='data', arrowprops=arrow, horizontalalignment='right', verticalalignment='top',fontsize=font,)
 axis.set_xlabel('Flight Time / $\mu$s', fontsize=d.x_axis_font)
 axis3 = axis.twiny()
-mass_ticks = np.array([152,154,156,158])
+mass_ticks = np.array([150,152,154,156])
 axis3.set_xlim(36.5,37.3)
 axis3.set_xticks(MassToTime(mass_ticks))
 axis3.set_xticklabels(mass_ticks)
@@ -121,7 +121,7 @@ p = axis.axvspan(40, 41, facecolor='#b6fa77', alpha=0.25)
 axis.tick_params(direction='in', length=d.ticklength, width=1, colors='k',labelsize=d.labelsize,axis='both',pad=d.pad)
 #axis.annotate('O', xy=(12.04, 10),  xycoords='data', xytext=(12.05, 69), textcoords='data', arrowprops=arrow, horizontalalignment='right', verticalalignment='top',fontsize=font,)
 axis3 = axis.twiny()
-mass_ticks = np.array([184,186,188,190])
+mass_ticks = np.array([182,184,186,188])
 axis3.set_xlim(40,41)
 axis3.set_xticks(MassToTime(mass_ticks))
 axis3.set_xticklabels(mass_ticks)

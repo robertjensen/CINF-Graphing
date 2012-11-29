@@ -19,14 +19,16 @@ fig.set_size_inches(fig_width,fig_height)
 data = {}
 data['vac'] = np.array([[40,0.85],[100,2.9],[150,4.4],[200,6.2],[250,8.6],[300,13.3],[350,24]])
 data['atm'] = np.array([[40,1.5],[100,7],[150,10.7],[200,14.9],[250,19.1],[350,34.9]])
+data['ins'] = np.array([[40,0.3],[80,1.3],[100,1.7],[125,2.3],[150,3.2],[175,4],[200,5.2],[225,6.3],[250,7.5],[275,9.5],[300,12.5],[325,18.4]])
 axis_array = []
 
 axis = fig.add_subplot(1,1,1)
 
 axis.plot(data['vac'][:,0], data['vac'][:,1], 'r.',label="Vacuum")
 axis.plot(data['atm'][:,0], data['atm'][:,1], 'b.',label="Air")
-axis.set_ylim(0,40)
-axis.set_xlim(0,370)
+axis.plot(data['ins'][:,0], data['ins'][:,1], 'k.',label="Double bonded")
+axis.set_ylim(0,15)
+axis.set_xlim(0,305)
 #axis.set_xticks([2.5,5,7.5,10,12.5,15,17.5,20,25,30,35])
 
 axis.legend(loc = 2,prop={"size":8})

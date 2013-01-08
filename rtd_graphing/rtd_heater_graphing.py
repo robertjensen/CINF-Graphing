@@ -57,68 +57,72 @@ fig_width = fig_width /2.54     # width in cm converted to inches
 fig_height = fig_width*ratio
 fig.set_size_inches(fig_width,fig_height)
 
-#img = scipy.misc.imread(datafile_dir + '/216.845384121.png')
-#img = img[:,:,0] # Image is black and white, remove color information
-#img = scipy.ndimage.rotate(img,-8)
-#img = img[85:-115,110:-90]
+image = False
+if image:
+	img = scipy.misc.imread(datafile_dir + '/216.845384121.png')
+	img = img[:,:,0] # Image is black and white, remove color information
+	img = scipy.ndimage.rotate(img,-8)
+	img = img[85:-115,110:-90]
 
-#print img.min()
-#print img.max()
-#print img.shape
+	#print img.min()
+	#print img.max()
+	#print img.shape
 
-#Reactor position: 2mm - 12mm from top
+	#Reactor position: 2mm - 12mm from top
 
-#a = plt.imshow(img,cmap=plt.cm.gray)
-#axis.plot(np.arange(0,img.shape[1]), img[40,:]*0.25, 'r-',label="Profile")
+	a = plt.imshow(img,cmap=plt.cm.gray)
+	axis.plot(np.arange(0,img.shape[1]), img[40,:]*0.25, 'r-',label="Profile")
 
-#c = plt.Circle([42,40], radius=23,color="g",fill=False)
-#fig.gca().add_artist(c)
+	c = plt.Circle([42,40], radius=23,color="g",fill=False)
+	fig.gca().add_artist(c)
 
-# Not correct position
-#b = plt.Rectangle([15,10],8,60,color="g",fill=False)
-#fig.gca().add_artist(b)
+	# Not correct position
+	b = plt.Rectangle([15,10],8,60,color="g",fill=False)
+	fig.gca().add_artist(b)
 
-# Not correct position
-#b = plt.Rectangle([30,10],10,60,color="g",fill=False)
-#fig.gca().add_artist(b)
+	# Not correct position
+	b = plt.Rectangle([30,10],10,60,color="g",fill=False)
+	fig.gca().add_artist(b)
 
-# Not correct position
-#b = plt.Rectangle([55,10],12,60,color="g",fill=False)
-#fig.gca().add_artist(b)
+	# Not correct position
+	b = plt.Rectangle([55,10],12,60,color="g",fill=False)
+	fig.gca().add_artist(b)
 
-#a = plt.axes([.6, .62, .28, .1], axisbg='w')
-#a.plot(np.arange(19,65), img[40,19:65], 'r-',label="Profile")
-#a.tick_params(direction='in', length=3, width=1, colors='k',labelsize=6,axis='both',pad=3)
-#plt.setp(a, xlim=(19,65), ylim=(0,500),xticks=[20,30], yticks=[59,100,200])
-#plt.setp(a, xlim=(19,65),xticks=[20,30])
-
-#print a.norm.vmin
-#print a.norm.vmax
-
-axis.plot(data['T1'][:,0], data['T1'][:,1], 'r-',label="H1")
-axis.plot(data['T2'][:,0], data['T2'][:,1], 'b-',label="H2")
-axis.plot(data['T3'][:,0], data['T3'][:,1], 'm-',label="H3")
-axis.plot(data['RTD_temp'][:,0], data['RTD_temp'][:,1], 'c-',label="RTD")
-
-axis.plot(data['R1'][:,0], data['R1'][:,1], 'r-',label="R1")
-axis.plot(data['I1'][:,0], data['I1'][:,1], 'g-',label="VR1")
-axis.plot(data['V1'][:,0], ((data['PS_Voltage'][:,1]-data['I1'][:,1])/data['I1'][:,1])-data['R1'][:,1], 'b-',label="R1 calc")
-
-axis2 = axis.twinx()
-axis2.plot(data['PS_Voltage'][:,0], data['PS_Voltage'][:,1], 'k-',label="PS Voltage")
-#axis.set_xlim(0,img.shape[1]-1)
-#axis.set_ylim(0,img.shape[0]-1)
-#axis.set_xlim(0,305)
-#axis.set_xticks([2.5,5,7.5,10,12.5,15,17.5,20,25,30,35])
-
-#axis.legend(loc = 2,prop={"size":8})
-
-#axis.tick_params(direction='in', length=d.ticklength, width=1, colors='k',labelsize=d.labelsize,axis='both',pad=d.pad)
-#axis.set_ylabel('Temperature / C', fontsize=d.y_axis_font)
-#axis2.set_ylabel('Bias / V', fontsize=d.y_axis_font)
-#axis.set_xlabel('Time / s', fontsize=d.x_axis_font)
+	a = plt.axes([.6, .62, .28, .1], axisbg='w')
+	a.plot(np.arange(19,65), img[40,19:65], 'r-',label="Profile")
+	a.tick_params(direction='in', length=3, width=1, colors='k',labelsize=6,axis='both',pad=3)
+	plt.setp(a, xlim=(19,65), ylim=(0,500),xticks=[20,30], yticks=[59,100,200])
+	plt.setp(a, xlim=(19,65),xticks=[20,30])
+	axis.set_xlim(0,img.shape[1]-1)
+	axis.set_ylim(0,img.shape[0]-1)
 
 
+	#print a.norm.vmin
+	#print a.norm.vmax
+
+
+overview = False
+if overview:
+	axis.plot(data['T1'][1:,0], data['T1'][1:,1], 'r-',label="H1")
+	axis.plot(data['T2'][1:,0], data['T2'][1:,1], 'b-',label="H2")
+	axis.plot(data['T3'][1:,0], data['T3'][1:,1], 'm-',label="H3")
+	axis.plot(data['RTD_temp'][1:,0], data['RTD_temp'][1:,1], 'c-',label="RTD")
+
+	#axis.plot(data['R1'][:,0], data['R1'][:,1], 'r-',label="R1")
+	#axis.plot(data['I1'][:,0], data['I1'][:,1], 'g-',label="VR1")
+	#axis.plot(data['V1'][:,0], ((data['PS_Voltage'][:,1]-data['I1'][:,1])/data['I1'][:,1])-data['R1'][:,1], 'b-',label="R1 calc")
+
+	axis2 = axis.twinx()
+	axis2.plot(data['PS_Voltage'][1:,0], data['PS_Voltage'][1:,1], 'k-',label="PS Voltage")	
+	axis.set_xlim(0,305)
+	#axis.set_xticks([2.5,5,7.5,10,12.5,15,17.5,20,25,30,35])
+
+	axis.legend(loc = 2,prop={"size":8})
+
+	axis.tick_params(direction='in', length=d.ticklength, width=1, colors='k',labelsize=d.labelsize,axis='both',pad=d.pad)
+	axis.set_ylabel('Temperature / C', fontsize=d.y_axis_font)
+	axis2.set_ylabel('Bias / V', fontsize=d.y_axis_font)
+	axis.set_xlabel('Time / s', fontsize=d.x_axis_font)
 
 
 #plt.tight_layout()

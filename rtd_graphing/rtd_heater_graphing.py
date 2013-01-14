@@ -65,50 +65,56 @@ if image:
 	reactor_length = 27.0#mm
 	pix_pr_mm = (dim.right_edge - dim.left_edge) / reactor_length
 
-	img = scipy.misc.imread(datafile_dir + '/216.845384121.png')
+	img_timestamp = 216.845384121
+	img = scipy.misc.imread(datafile_dir + '/' + str(img_timestamp) + '.png')
 	img = img[:,:,0] # Image is black and white, remove color information
 	img = scipy.ndimage.rotate(img,-8)
 	img = img[dim.crop['left']:-1*dim.crop['right'],dim.crop['top']:-1*dim.crop['bottom']]
-	#print img.min()
-	#print img.max()
-	print img.shape
-MAXTEMP = 64
-MINTEMP = 24
-	scale_f = 1.0 * img.shape[0]/max(img[40,:])
-	print scale_f
-	#Reactor position: 2mm - 12mm from top
-	print max(img[40,:])
-	a = plt.imshow(img,cmap=plt.cm.gray)
-	axis.plot(np.arange(0,img.shape[1]), 1.0*img[40,:]*img.shape[0]/max(img[40,:]), 'r-',label="Profile")
 
+	scale_f = 0.95 * img.shape[0]/max(img[40,:])
+	a = plt.imshow(img,cmap=plt.cm.gray)
+	axis.plot(np.arange(0,img.shape[1]), scale_f * img[40,:], 'r-',label="Profile")
+
+	min_temp = dim.images[img_timestamp][0] * 1.0
+	max_temp = dim.images[img_timestamp][1] * 1.0
+	tickmarks = np.arange(10*int(1+math.floor(min_temp/10)),10*int(1+math.floor(max_temp/10)),10)
+	
+	scale_temp = 255/(max_temp-min_temp)
+	axis.set_yticks((scale_temp * (tickmarks - min_temp)) * scale_f)
+	axis.set_yticklabels(tickmarks)
+
+	# Heater 3, 1mm from top, 1mm wide
+	b = plt.Rectangle([1*pix_pr_mm + dim.left_edge,10],1*pix_pr_mm,60,color="g",fill=False)
+	fig.gca().add_artist(b)
+
+	# Heater 2, 6.6mm from top, 1mm wide
+	b = plt.Rectangle([6.6*pix_pr_mm + dim.left_edge,10],1*pix_pr_mm,60,color="g",fill=False)
+	fig.gca().add_artist(b)
+
+	# Heater 1, 12.9 from top, 2mm wide
+	b = plt.Rectangle([12.9*pix_pr_mm + dim.left_edge,10],2*pix_pr_mm,60,color="g",fill=False)
+	fig.gca().add_artist(b)
+
+	#Reactor position: 2mm - 12mm from top
 	c = plt.Circle([42,40], radius=23,color="g",fill=False)
 	fig.gca().add_artist(c)
 
-	# Not correct position
-	b = plt.Rectangle([15,10],8,60,color="g",fill=False)
-	fig.gca().add_artist(b)
-
-	# Not correct position
-	b = plt.Rectangle([30,10],10,60,color="g",fill=False)
-	fig.gca().add_artist(b)
-
-	# Not correct position
-	b = plt.Rectangle([55,10],12,60,color="g",fill=False)
-	fig.gca().add_artist(b)
-
-	a = plt.axes([.6, .62, .28, .1], axisbg='w')
-	a.plot(np.arange(19,65), img[40,19:65], 'r-',label="Profile")
+	reactor_left  =  int(dim.left_edge + 2*pix_pr_mm)
+	reactor_right = int(dim.left_edge + 12*pix_pr_mm)
+	zoom_data = img[40,reactor_left:reactor_right] / scale_temp + min_temp
+	a = plt.axes([.6, .66, .28, .1], axisbg='w')
+	#a.plot(np.arange(19,65), img[40,reactor_left:reactor_right], 'r-',label="Profile")
+	a.plot(np.arange(reactor_left,reactor_right), zoom_data, 'r-',label="Profile")
 	a.tick_params(direction='in', length=3, width=1, colors='k',labelsize=6,axis='both',pad=3)
-	plt.setp(a, xlim=(19,65), ylim=(0,500),xticks=[20,30], yticks=[59,100,200])
-	plt.setp(a, xlim=(19,65),xticks=[20,30])
-	axis.set_xlim(0,img.shape[1]-1)
-	axis.set_ylim(0,img.shape[0]-1)
+	plt.setp(a, xlim=(reactor_left,reactor_right), ylim=(min(zoom_data)-0.1,max(zoom_data) + 0.1),xticks=[])#, yticks=[59,100,200])
 
 	pos_ticks = np.array([0,5,10,15,20,25])
+	axis.set_xlim(0,img.shape[1]-1)
+	axis.set_ylim(0,img.shape[0]-1)
 	axis.set_xticks(pos_ticks*pix_pr_mm+dim.left_edge)
 	axis.set_xticklabels(pos_ticks)
 	axis.set_xlabel('Pos / mm', fontsize=d.x_axis_font)
-
+	axis.set_ylabel('Thermographic temperature / C', fontsize=d.x_axis_font)
 	#print a.norm.vmin
 	#print a.norm.vmax
 

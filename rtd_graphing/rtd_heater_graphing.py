@@ -5,6 +5,9 @@ import scipy.ndimage
 
 #datafile_dir = 'real_image_test'
 datafile_dir = 'first_image_test'
+sys.path.append('./' + datafile_dir + '/')
+import dimensions as dim
+
 f = open(datafile_dir + '/datafile.txt','r')
 file = f.read()
 f.close()
@@ -57,21 +60,26 @@ fig_width = fig_width /2.54     # width in cm converted to inches
 fig_height = fig_width*ratio
 fig.set_size_inches(fig_width,fig_height)
 
-image = False
+image = True
 if image:
+	reactor_length = 27.0#mm
+	pix_pr_mm = (dim.right_edge - dim.left_edge) / reactor_length
+
 	img = scipy.misc.imread(datafile_dir + '/216.845384121.png')
 	img = img[:,:,0] # Image is black and white, remove color information
 	img = scipy.ndimage.rotate(img,-8)
-	img = img[85:-115,110:-90]
-
+	img = img[dim.crop['left']:-1*dim.crop['right'],dim.crop['top']:-1*dim.crop['bottom']]
 	#print img.min()
 	#print img.max()
-	#print img.shape
-
+	print img.shape
+MAXTEMP = 64
+MINTEMP = 24
+	scale_f = 1.0 * img.shape[0]/max(img[40,:])
+	print scale_f
 	#Reactor position: 2mm - 12mm from top
-
+	print max(img[40,:])
 	a = plt.imshow(img,cmap=plt.cm.gray)
-	axis.plot(np.arange(0,img.shape[1]), img[40,:]*0.25, 'r-',label="Profile")
+	axis.plot(np.arange(0,img.shape[1]), 1.0*img[40,:]*img.shape[0]/max(img[40,:]), 'r-',label="Profile")
 
 	c = plt.Circle([42,40], radius=23,color="g",fill=False)
 	fig.gca().add_artist(c)
@@ -96,6 +104,10 @@ if image:
 	axis.set_xlim(0,img.shape[1]-1)
 	axis.set_ylim(0,img.shape[0]-1)
 
+	pos_ticks = np.array([0,5,10,15,20,25])
+	axis.set_xticks(pos_ticks*pix_pr_mm+dim.left_edge)
+	axis.set_xticklabels(pos_ticks)
+	axis.set_xlabel('Pos / mm', fontsize=d.x_axis_font)
 
 	#print a.norm.vmin
 	#print a.norm.vmax

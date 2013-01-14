@@ -171,12 +171,22 @@ for timestamp in sorted(dim.images.keys()):
 	
 		reactor_left  =  int(dim.left_edge + 2*pix_pr_mm)
 		reactor_right = int(dim.left_edge + 12*pix_pr_mm)
+		
 		zoom_data = img[40,reactor_left:reactor_right] / scale_temp + min_temp
 		a = plt.axes([.6, .16, .28, .2], axisbg='w')
-		#a.plot(np.arange(19,65), img[40,reactor_left:reactor_right], 'r-',label="Profile")
 		a.plot(np.arange(reactor_left,reactor_right), zoom_data, 'r-',label="Profile")
 		a.tick_params(direction='in', length=3, width=1, colors='k',labelsize=6,axis='both',pad=3)
 		plt.setp(a, xlim=(reactor_left,reactor_right), ylim=(min(zoom_data)-0.1,max(zoom_data) + 0.1),xticks=[])#, yticks=[59,100,200])
+	
+		b = plt.axes([.6, .4, .28, .2], axisbg='w')
+
+		b.plot(data['T1'][i-5:i+5,0], data['T1'][i-5:i+5,1], 'r-',label="H1")
+		b.plot(data['T2'][i-5:i+5,0], data['T2'][i-5:i+5,1], 'b-',label="H2")
+		b.plot(data['T3'][i-5:i+5,0], data['T3'][i-5:i+5,1], 'm-',label="H3")
+		b.plot(data['RTD_temp'][i-5:i+5,0], data['RTD_temp'][i-5:i+5,1], 'c-',label="RTD")
+
+		b.tick_params(direction='in', length=3, width=1, colors='k',labelsize=6,axis='both',pad=3)
+		#plt.setp(b, xlim=(reactor_left,reactor_right), ylim=(min(zoom_data)-0.1,max(zoom_data) + 0.1),xticks=[])#, yticks=[59,100,200])
 	
 		pos_ticks = np.array([0,5,10,15,20,25])
 		axis.set_xlim(0,img.shape[1]-1)

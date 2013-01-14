@@ -102,7 +102,7 @@ if image:
 	reactor_left  =  int(dim.left_edge + 2*pix_pr_mm)
 	reactor_right = int(dim.left_edge + 12*pix_pr_mm)
 	zoom_data = img[40,reactor_left:reactor_right] / scale_temp + min_temp
-	a = plt.axes([.6, .66, .28, .1], axisbg='w')
+	a = plt.axes([.6, .16, .28, .2], axisbg='w')
 	#a.plot(np.arange(19,65), img[40,reactor_left:reactor_right], 'r-',label="Profile")
 	a.plot(np.arange(reactor_left,reactor_right), zoom_data, 'r-',label="Profile")
 	a.tick_params(direction='in', length=3, width=1, colors='k',labelsize=6,axis='both',pad=3)

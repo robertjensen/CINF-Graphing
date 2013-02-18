@@ -1,4 +1,7 @@
 #backend = 'agg'
+
+er
+ett
 execfile('../std_header.py')
 import scipy
 import scipy.ndimage
@@ -57,8 +60,7 @@ def read_datafile(datafile_dir):
 
 #datafile_dir = 'first_image_test'
 #datafile_dir = 'volt_steps'
-#datafile_dir = 'volt_steps_2'
-datafile_dir = 'Mo_first_heating'
+datafile_dir = 'volt_steps_2'
 sys.path.append('./' + datafile_dir + '/')
 import dimensions as dim
 

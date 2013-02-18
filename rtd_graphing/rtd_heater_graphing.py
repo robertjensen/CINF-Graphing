@@ -58,7 +58,8 @@ def read_datafile(datafile_dir):
 #datafile_dir = 'first_image_test'
 #datafile_dir = 'volt_steps'
 #datafile_dir = 'volt_steps_2'
-datafile_dir = 'Mo_first_heating'
+#datafile_dir = 'Mo_first_heating'
+datafile_dir = 'Mo_second_heating'
 sys.path.append('./' + datafile_dir + '/')
 import dimensions as dim
 
@@ -80,6 +81,7 @@ if overview:
 	axis.plot(data['T2'][1:,0], data['T2'][1:,1], 'b-',label="H2")
 	axis.plot(data['T3'][1:,0], data['T3'][1:,1], 'm-',label="H3")
 	axis.plot(data['RTD_temp'][1:,0], data['RTD_temp'][1:,1], 'c-',label="RTD")
+	axis.plot(data['TC_temp'][1:,0], data['TC_temp'][1:,1], 'g',label="TC")
 
 	for time in dim.images.keys():
 		axis.vlines(time,axis.get_ylim()[0],axis.get_ylim()[1],linestyles='dotted',linewidth=0.25)
